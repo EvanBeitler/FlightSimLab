@@ -1,50 +1,69 @@
-# AI 101 — CesiumJS Flight Lab
+Flight Lab
 
-This is an original teaching starter: a steerable moving point, not a realistic aircraft simulator.
+A small, interactive 3D globe where you steer a simulated moving marker. Built with CesiumJS as a learning project for AI 101 at Alvernia University.
 
-## Run
-Upload all files in this folder to the root of a public GitHub repository. In Settings → Pages choose Deploy from a branch, main, /(root). Open the site URL after deployment. Alternatively serve this folder with your editor's local web server. If Python is already installed: `python -m http.server 8000`, then open http://localhost:8000.
+Live demo: https://<your-username>.github.io/<repo-name>/ (replace with your Pages link)
 
-Internet and WebGL are required. CesiumJS 1.145 and its matching CSS load from Cesium's CDN. No build step or Node installation is needed. Real satellite imagery needs a free Cesium ion access token, which goes in `config.js` (`window.APP_CONFIG.ionToken`). Without a token the lab still runs on the plain grid globe. Keep Cesium's on-screen credits visible.
+This is a teaching demo, not a flight simulator and not for navigation. The marker is a point that moves in a straight line. There is no lift, drag, banking, pitch, collision or real aircraft data.
 
-## Controls
-Fly starts motion; Pause stops it. **Slow Tour** (added) sets speed to 30 m/s and height to 300 m and starts moving; the status line then reads "Slow Tour". Editing speed or height by hand, or pressing Reset, returns to normal "Flying" wording. Left/Right change heading by 10 degrees. Speed is 0–250 meters/second; height is 50–5000 meters above the model ellipsoid. Height changes instantly: this starter does not simulate climbing. Reset restores the paused initial state. Switching to another browser tab pauses the app. On returning, press Fly again. The camera follows while flying.
+What you can do
+Control	What it does
+Fly	Start moving
+Slow Tour	Fly slowly (30 m/s) at a low height (300 m) so the scene is easy to follow
+Pause	Stop moving
+Left / Right 10°	Turn the heading by 10 degrees
+Speed	0–250 meters per second
+Height	50–5,000 meters above the model ellipsoid
+Reset	Return to the paused starting state
 
-## Test
-Open tests.html on the same site. Also perform the six manual checks on Canvas page 05. Optional developer command: `node -e "require('./flight-core.js');require('./tests.js')"`.
+Height changes instantly (there is no climb). Switching to another browser tab pauses the app; press Fly again when you return. The camera follows the marker while it is flying. The readout under the controls shows heading, longitude, latitude, height and speed as numbers.
 
-## Model and geography
-Uses spherical destination-point math with Earth radius 6,371,000 m, displayed on Cesium's ellipsoid globe. This approximation is for learning. Heading remains constant between clicks. Frame dt is capped at 0.1 s to prevent large jumps after stalls, so low frame rates can slow simulated time. Imagery is a visual backdrop only. Terrain stays flat (ellipsoid), so height is not height above real ground. There is no lift, drag, bank, pitch, collision, flight data, or navigation accuracy. The marker is a point, not an aircraft model. Grid lines provide visual reference, not roads. The imagery comes from Cesium ion and keeps Cesium's credits visible.
-The approximate origin (-75.93, 40.33) is a Reading-area classroom reference, not a verified Alvernia campus location. Validate real location claims separately.
+Run it yourself
 
-## Student additions — complete before submission
-**CesiumJS version:** 1.145 (loaded from Cesium's CDN; see index.html)
+You need an internet connection and a browser with WebGL.
 
-**Run steps (exact):**
-1. Unzip Flight_Lab.zip. Make sure `config.js` contains a valid Cesium ion token.
-2. In the folder, run `python -m http.server 8000` (or use your editor's local server).
-3. Open http://localhost:8000 (internet and WebGL required).
-4. Expected on load: a satellite-imagery globe with the grid and gold dot, and the status line starts with "Satellite imagery: Cesium ion." Then press **Slow Tour**. Expected: speed box shows 30, height box shows 300, status reads "Slow Tour — simulated movement at 30 m/s, 300 m", and the readout latitude starts increasing.
-5. Open http://localhost:8000/tests.html. Expected: 10 lines, all `PASS` (7 starter checks + 3 Slow Tour checks).
+Download or clone this repository.
+In the project folder, run: python -m http.server 8000 (or use your editor's local server).
+Open http://localhost:8000.
 
-**Audience and purpose:** TODO — write your pitch: "I want to help ___ do ___ using ___ data." Add one sentence on what you will verify before sharing.
+To publish with GitHub Pages: put the files in the root of a public repository, then go to Settings → Pages, choose Deploy from a branch, main, /(root).
 
-**Feature changed:** Added a **Slow Tour** button. Rules live in `flight-core.js` (`Flight.slowTour`, constants in `Flight.SLOW_TOUR`) so they can be unit-tested; `app.js` only wires the button and updates the status text. Also added a `tour` flag to state and clearer status wording. Three new checks (8-10) were added to `tests.js`; the original seven are unchanged.
+Cesium ion token (for satellite imagery)
 
-**AI assistance accepted/rejected:** TODO — summarize in your own words (see your three conversation excerpts).
+The satellite imagery needs a free Cesium ion access token. Create one at cesium.com/ion and put it in config.js:
 
-**Tests and evidence:** See Test_Log.csv. Automated checks were run in Node; re-run `tests.html` in your browser and record the result. Manual checks and break-and-repair: TODO.
+js
+window.APP_CONFIG = { ionToken: "YOUR_TOKEN_HERE" };
 
-**Partner reproduction feedback:** TODO — partner name, what confused them, what you changed.
+Without a token, the app still runs on a plain grid globe, and the status line says so. Anything you publish is public, so use a token made just for this project, give it read-only access, and restrict it to your site's URL if you can.
 
-**Geographic/API sources:** Imagery from Cesium ion (World Imagery) via an access token in `config.js`; TODO — also the origin (-75.93, 40.33) is a Reading-area teaching reference, not a verified campus location. If you make any real-location claim, cite where you checked it and the date.
+Tests
 
-**Known limitations:** The token in `config.js` is visible to anyone who views the site; if imagery stops loading, the token may have expired or been restricted. Slow Tour changes only speed and height; it is not a route and has no real navigation. At 30 m/s with the camera 2,500 m back, movement looks subtle, which is intentional but may be hard to see. Height still changes instantly (no climb simulation). Frame dt is capped at 0.1 s, so low frame rates slow simulated time. TODO — add one limitation you found yourself.
+Open tests.html on the same site (or at http://localhost:8000/tests.html). It runs 10 checks on the movement math, such as north increasing latitude and one second matching ten 0.1-second steps. These test the math only, not the globe or buttons.
 
-## References
+Optional command-line run: node -e "require('./flight-core.js');require('./tests.js')"
+
+How it's organized
+File	Purpose
+index.html	The main page; loads Cesium, then the scripts below
+flight-core.js	Movement math (no screen code, so it can be tested)
+app.js	Draws the globe and connects the controls
+config.js	Cesium ion token
+tests.html, tests.js	Automated checks
+style.css	Layout and colors
+Accuracy and limitations
+Movement uses simplified spherical math with an Earth radius of 6,371,000 m, shown on Cesium's ellipsoid globe. It is an approximation for learning.
+Heading stays constant between clicks. Frame time is capped at 0.1 s to avoid big jumps after a stall, so on a slow device simulated time can run slower than real time.
+Satellite imagery is a backdrop only. Terrain is flat, so height is not height above real ground.
+The grid is a visual scale reference, not roads.
+The starting point (-75.93, 40.33) is an approximate Reading-area teaching reference, not a verified campus location. Check any real-world location claim separately.
+The ion token in config.js is visible to anyone who views the site. If imagery stops loading, the token may have expired or been restricted.
+Credits and licenses
+Built with CesiumJS 1.145, loaded from Cesium's CDN. CesiumJS is an external dependency with its own license and notices; it is not bundled here.
+Satellite imagery is provided through Cesium ion. Keep Cesium's on-screen credits visible.
+Starter code for this lab was provided for AI 101; the Slow Tour feature, imagery setup and documentation were added by the project author with AI assistance.
+References
 https://cesium.com/learn/cesiumjs-learn/
 https://cesium.com/learn/cesiumjs/ref-doc/Viewer.html
 https://cesium.com/learn/cesiumjs/ref-doc/Cartesian3.html
 https://cesium.com/learn/cesiumjs/ref-doc/GridImageryProvider.html
-
-CesiumJS is an external dependency with its own license and notices. It is not bundled in this resource ZIP.
