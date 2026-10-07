@@ -2,7 +2,7 @@ Flight Lab
 
 A small, interactive 3D globe where you steer a simulated moving marker. Built with CesiumJS as a learning project for AI 101 at Alvernia University.
 
-Live demo: https://<your-username>.github.io/<repo-name>/ (replace with your Pages link)
+Live demo: [https://<your-username>.github.io/Flight](https://evanbeitler.github.io/FlightSimLab/index.html)
 
 This is a teaching demo, not a flight simulator and not for navigation. The marker is a point that moves in a straight line. There is no lift, drag, banking, pitch, collision or real aircraft data.
 
@@ -16,7 +16,7 @@ Speed	0–250 meters per second
 Height	50–5,000 meters above the model ellipsoid
 Reset	Return to the paused starting state
 
-Height changes instantly (there is no climb). Switching to another browser tab pauses the app; press Fly again when you return. The camera follows the marker while it is flying. The readout under the controls shows heading, longitude, latitude, height and speed as numbers.
+Switching to another browser tab pauses the app; press Fly again when you return. The camera follows the marker while it is flying. The readout under the controls shows heading, longitude, latitude, height and speed as numbers.
 
 Run it yourself
 
