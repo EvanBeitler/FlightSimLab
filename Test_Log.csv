@@ -1,0 +1,25 @@
+ID,Type,Check,Expected,Actual,Result,Evidence
+A1,Automated (node),Pause preserves position,PASS,PASS,PASS,node -e "require('./flight-core.js');require('./tests.js')" output
+A2,Automated (node),North increases latitude,PASS,PASS,PASS,same node run
+A3,Automated (node),East increases longitude,PASS,PASS,PASS,same node run
+A4,Automated (node),Heading wraps in both directions,PASS,PASS,PASS,same node run
+A5,Automated (node),Height limits clamp,PASS,PASS,PASS,same node run
+A6,Automated (node),Zero speed keeps position,PASS,PASS,PASS,same node run
+A7,Automated (node),Duration consistency (1 s = ten 0.1 s steps),PASS,PASS,PASS,same node run
+A8,Automated (node),Slow Tour slower than default and starts motion,PASS,PASS,PASS,same node run
+A9,Automated (node),Slow Tour values within limits,PASS,PASS,PASS,same node run
+A10,Automated (node),Slow Tour keeps position and heading,PASS,PASS,PASS,same node run
+B1,Automated (browser),tests.html shows all 10 lines as PASS,10 PASS,,NOT RUN,TODO screenshot of tests.html
+M1,Manual,TODO copy flight check 1 from Canvas page 6,,,NOT RUN,
+M2,Manual,TODO copy flight check 2 from Canvas page 6,,,NOT RUN,
+M3,Manual,TODO copy flight check 3 from Canvas page 6,,,NOT RUN,
+M4,Manual,TODO copy flight check 4 from Canvas page 6,,,NOT RUN,
+M5,Manual,TODO copy flight check 5 from Canvas page 6,,,NOT RUN,
+M6,Manual,TODO copy flight check 6 from Canvas page 6,,,NOT RUN,
+F1,Manual (my feature),Press Slow Tour from the initial paused state,Speed box 30; height box 300; status says Slow Tour; latitude readout increases,,NOT RUN,TODO screenshot
+F2,Manual (my feature),After Slow Tour type 90 in the speed box,Status changes to Flying; speed 90; height stays 300,,NOT RUN,TODO screenshot
+F3,Manual (my feature),After Slow Tour press Reset,Paused; speed 70; height 500; status Paused,,NOT RUN,TODO screenshot
+I1,Manual (imagery),Load index.html with token in config.js,Satellite imagery globe (not plain blue) with grid and gold dot; status begins Satellite imagery: Cesium ion.,,NOT RUN,TODO screenshot
+I2,Manual (imagery),Temporarily blank ionToken in config.js and reload,Plain grid globe; status says Grid only; no crash,,NOT RUN,TODO screenshot then restore token
+R1,Break-and-repair,Remove "* dt" in flight-core.js (const distance = state.speed;) then open tests.html,Duration consistency check FAILS; other checks pass,,NOT RUN,TODO screenshot of failure
+R2,Break-and-repair,Restore "* dt" then reload tests.html,All checks PASS,,NOT RUN,TODO screenshot after repair
